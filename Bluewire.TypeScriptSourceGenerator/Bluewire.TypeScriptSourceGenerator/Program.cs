@@ -9,11 +9,19 @@ namespace Bluewire.TypeScriptSourceGenerator
 
         static void Main(string[] args)
         {
-            var filename = "HelloWorld.ts";
-            var content = "console.log('Hello, world!');" + Environment.NewLine;
-            var path = Path.Combine(outputDirectory, filename);
-
             Directory.CreateDirectory(outputDirectory);
+
+            var mainSource =
+                "import { helloWorld } from './ExportedConstant';" + Environment.NewLine +
+                "console.log(helloWorld);" + Environment.NewLine;
+
+            EmitFile("Main.ts", mainSource);
+            EmitFile("ExportedConstant.ts", "export const helloWorld = 'Hello, world!';" + Environment.NewLine);
+        }
+
+        static void EmitFile(string filename, string content)
+        {
+            var path = Path.Combine(outputDirectory, filename);
             File.WriteAllText(path, content);
         }
     }
