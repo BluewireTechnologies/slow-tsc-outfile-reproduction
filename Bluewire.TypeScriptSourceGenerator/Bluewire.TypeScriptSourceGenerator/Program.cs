@@ -9,7 +9,7 @@ namespace Bluewire.TypeScriptSourceGenerator
 
         static void Main(string[] args)
         {
-            var filename = "HelloWorld.js";
+            var filename = "HelloWorld.ts";
             var content = "console.log('Hello, world!');" + Environment.NewLine;
             var path = Path.Combine(outputDirectory, filename);
 
