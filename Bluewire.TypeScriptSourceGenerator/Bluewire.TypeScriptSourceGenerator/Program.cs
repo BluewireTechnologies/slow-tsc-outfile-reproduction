@@ -6,7 +6,7 @@ namespace Bluewire.TypeScriptSourceGenerator
     class Program
     {
         const string rootOutputDirectory = @"C:\TypeScriptSourceGenerator\Output";
-        const int modulesPerSubdirectory = 30;
+        const int modulesPerSubdirectory = 50;
 
         static void Main(string[] args)
         {
