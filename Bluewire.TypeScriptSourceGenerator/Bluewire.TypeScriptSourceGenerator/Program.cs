@@ -58,7 +58,7 @@ namespace Bluewire.TypeScriptSourceGenerator
                 }
 
                 var filename = $"Tier1Module{i + 1}.ts";
-                var logStatement = $"    console.log('tier1Lambda{i + 1} invoked');" + Environment.NewLine;
+                var logStatement = $"    console.log('    tier1Lambda{i + 1} invoked');" + Environment.NewLine;
                 var importBlock = string.Join(Environment.NewLine, importLines) + Environment.NewLine;
                 var invokationBlock = string.Join(Environment.NewLine, invokationLines);
                 var content = string.Join(Environment.NewLine, new[]
@@ -87,7 +87,7 @@ namespace Bluewire.TypeScriptSourceGenerator
                     var filename = $"Tier2Group{i + 1}Module{j + 1}.ts";
                     var lambdaName = $"tier2Group{i + 1}Lambda{j + 1}";
                     var content =
-                        $"export const {lambdaName} = () => console.log('{lambdaName} invoked');" +
+                        $"export const {lambdaName} = () => console.log('        {lambdaName} invoked');" +
                         Environment.NewLine;
 
                     EmitFile(filename, content, directoryPath);
