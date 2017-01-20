@@ -6,27 +6,25 @@ namespace Bluewire.TypeScriptSourceGenerator
     class Program
     {
         const string rootOutputDirectory = @"C:\TypeScriptSourceGenerator\Output";
-        const string subdirectory = @".\Subdirectory";
-        const int modulesToGenerate = 30;
+        const int modulesPerTier = 30;
 
         static void Main(string[] args)
         {
-            Directory.CreateDirectory(rootOutputDirectory);
-            Directory.CreateDirectory(Path.Combine(rootOutputDirectory, subdirectory));
-
             CreateMainSourceFile();
-            CreateModuleSourceFiles();
+            CreateFirstTierModules();
         }
 
         static void CreateMainSourceFile()
         {
-            var importLines = new string[modulesToGenerate];
-            var invokationLines = new string[modulesToGenerate];
+            Directory.CreateDirectory(rootOutputDirectory);
 
-            for (var i = 0; i < modulesToGenerate; i++)
+            var importLines = new string[modulesPerTier];
+            var invokationLines = new string[modulesPerTier];
+
+            for (var i = 0; i < modulesPerTier; i++)
             {
-                importLines[i] = $"import {{ lambda{i + 1} }} from './Subdirectory/Module{i + 1}';";
-                invokationLines[i] = $"lambda{i + 1}();";
+                importLines[i] = $"import {{ tier1Lambda{i + 1} }} from './FirstTierModules/Tier1Module{i + 1}';";
+                invokationLines[i] = $"tier1Lambda{i + 1}();";
             }
 
             var importBlock = string.Join(Environment.NewLine, importLines) + Environment.NewLine;
@@ -36,14 +34,18 @@ namespace Bluewire.TypeScriptSourceGenerator
             EmitFile("Main.ts", content);
         }
 
-        static void CreateModuleSourceFiles()
+        static void CreateFirstTierModules()
         {
-            for (var i = 0; i < modulesToGenerate; i++)
-            {
-                var filename = $"Module{i + 1}.ts";
-                var content = $"export const lambda{i + 1} = () => console.log('lambda{i + 1} invoked');" + Environment.NewLine;
+            var directoryPath = @".\FirstTierModules";
 
-                EmitFile(filename, content, subdirectory);
+            Directory.CreateDirectory(Path.Combine(rootOutputDirectory, directoryPath));
+
+            for (var i = 0; i < modulesPerTier; i++)
+            {
+                EmitFile(
+                    $"Tier1Module{i + 1}.ts",
+                    $"export const tier1Lambda{i + 1} = () => console.log('tier1Lambda{i + 1} invoked');" + Environment.NewLine,
+                    directoryPath);
             }
         }
 
